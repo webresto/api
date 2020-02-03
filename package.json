@@ -1,0 +1,43 @@
+{
+  "author": {
+    "name": "42team"
+  },
+  "contributors": [
+    {
+      "name": "Ilya Dolmatov",
+      "email": "dolmatoffilya@gmail.com"
+    }
+  ],
+  "bundleDependencies": false,
+  "dependencies": {
+
+  },
+  "deprecated": false,
+  "description": "sails rest api",
+  "directories": {
+    "doc": "docs",
+    "lib": "lib"
+  },
+  "keywords": [
+    "iiko",
+    "sails",
+    "resto",
+    "api"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "name": "@webresto/api",
+  "repository": {
+    "type": "git",
+    "url": "http://git.42team.org/webresto/core.git"
+  },
+  "sails": {
+    "isHook": true,
+    "hookName": "resto-api"
+  },
+  "scripts": {
+    "gendoc": "apidoc -o apidoc/ && apidoc-markdown2 -p apidoc -o docs/api.md",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.7.0"
+}
