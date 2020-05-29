@@ -2,12 +2,6 @@
   "author": {
     "name": "42team"
   },
-  "contributors": [
-    {
-      "name": "Ilya Dolmatov",
-      "email": "dolmatoffilya@gmail.com"
-    }
-  ],
   "bundleDependencies": false,
   "dependencies": {
 
