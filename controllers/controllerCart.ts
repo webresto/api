@@ -228,7 +228,8 @@ export default {
 
     let cart = await Cart.findOne(cartId);
     if (!cart) {
-      return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);
+      cart = await Cart.create({id: uuid()});
+      //return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);
     }
 
     cart = await Cart.returnFullCart(cart);

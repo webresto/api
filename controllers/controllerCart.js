@@ -144,7 +144,8 @@ exports.default = {
             return res.badRequest('cartId is required');
         let cart = await Cart.findOne(cartId);
         if (!cart) {
-            return responseWithErrorMessage_1.default(res, `Cart with id ${cartId} not found`);
+            cart = await Cart.create({ id: uuid() });
+            //return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);
         }
         cart = await Cart.returnFullCart(cart);
         return res.json({

@@ -6,6 +6,44 @@
  * @apiError (500) ServerError 500
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * @api {GET} /api/0.5/menu Полное меню
+ * @apiName Меню
+ * @apiGroup Menu
+ * @apiDescription Получение иерархии меню
+ *
+ * @apiSuccess {[Group](#api-Models-ApiGroup)[]} GroupObjectArray Список главных групп (которые не имеют родительских групп) с полной иехрархией всех дочерних групп и блюд
+ *
+ * @apiUse MenuError
+ */
+/**
+ * @api {GET} /api/0.5/menu Получение отдельного блюда
+ * @apiName Menu
+ * @apiGroup Menu
+ * @apiDescription Получение блюда по его ID или slug. Запрос только по одному из двух полей ниже
+ *
+ * @apiParam {String} dishId ID блюда для получения
+ * @apiParam {String} slug Slug блюда для получения
+ *
+ * @apiSuccess {[Dish](#api-Models-ApiDish)} DishObject Запрашиваемое блюдо
+ *
+ * @apiUse MenuError
+ */
+/**
+ * @api {GET} /api/0.5/menu Получение блюд из группы
+ * @apiName Меню Групп
+ * @apiGroup Menu
+ * @apiDescription Получение заданной группы со всеми её дочерними группами и блюдами
+ *
+ * @apiParam {String} groupId ID группы для получения
+ * @apiParam {String} groupSlug Slug группы для получения
+ *
+ * @apiSuccess {[Group](#api-Models-ApiGroup)} GroupObject Запрашиваемая группа
+ *
+ * @apiUse MenuError
+ */
+//import Group from "@webresto/core/models/Group";
+//import Dish from "@webresto/core/models/Dish";
 const responseWithErrorMessage_1 = require("@webresto/api/lib/responseWithErrorMessage");
 async function default_1(req, res) {
     const groupId = req.param('groupId');
