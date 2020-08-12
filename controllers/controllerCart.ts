@@ -73,7 +73,8 @@
  *
  * @apiParam {String} cartId ID корзины из которой удаляется блюдо
  * @apiParam {Integer} [amount=1] количество удаляемых порций
- * @apiParam {String} dishId Блюдо, которому меняется количество порций (параметр dishId - поле id из модели [CartDish](#api-Models-ApiCartdish))
+ * @apiParam {String} dishId Блюдо, которому меняется количество порций (параметр dishId - поле id из модели [CartDish](#api-Models-ApiCartdish) или если выбран режим стэк то это ID из модели [Dish](#api-Models-ApiDish) )
+ * @apiParam {Boolean} stack Признак того что блюда удаляются из корзины в режиме стека
  *
  * @apiUse CartResponse
  */
