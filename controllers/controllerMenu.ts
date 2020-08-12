@@ -43,8 +43,8 @@
  *
  * @apiUse MenuError
  */
-import Group from "@webresto/core/models/Group";
-import Dish from "@webresto/core/models/Dish";
+//import Group from "@webresto/core/models/Group";
+//import Dish from "@webresto/core/models/Dish";
 import responseWithErrorMessage from "@webresto/api/lib/responseWithErrorMessage";
 
 export default async function (req: ReqType, res: ResType) {
