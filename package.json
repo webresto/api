@@ -3,9 +3,7 @@
     "name": "42team"
   },
   "bundleDependencies": false,
-  "dependencies": {
-
-  },
+  "dependencies": {},
   "deprecated": false,
   "description": "sails rest api",
   "directories": {

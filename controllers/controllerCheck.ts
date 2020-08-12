@@ -48,7 +48,7 @@ import SystemInfo from "@webresto/core/models/SystemInfo";
 import OrderData from "@webresto/core/modelsHelp/OrderData";
 
 export default async function (req: ReqType, res: ResType) {
-  let data = <OrderData>req.body;
+  let data = <OrderData>req.body; 
   if (!data) {
     return res.badRequest({
       message: {
@@ -100,7 +100,7 @@ export default async function (req: ReqType, res: ResType) {
       data.address.city = data.address.city || await SystemInfo.use('city');
     }
 
-    const success = await cart.check(data.customer, isSelfService, data.address);
+    const success = await cart.check(data.customer, isSelfService, data.address, data.paymentMethodId);
 
     if (success) {
       return res.json({

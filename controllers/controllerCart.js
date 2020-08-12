@@ -106,6 +106,7 @@ exports.default = {
         const cartId = data.cartId;
         const amount = data.amount || 1;
         const dishId = data.dishId;
+        const is_stack  = data.stack || false;
         if (!cartId)
             return res.badRequest('cartId is required');
         if (!dishId)

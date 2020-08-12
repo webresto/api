@@ -185,6 +185,7 @@ export default {
     const cartId = data.cartId;
     const amount = data.amount || 1;
     const dishId = data.dishId;
+    const stack = data.stack || false;
 
     if (!cartId)
       return res.badRequest('cartId is required');
@@ -201,7 +202,7 @@ export default {
       const cartDish = await CartDish.findOne(dishId);
 
       try {
-        await cart.removeDish(cartDish, amount);
+        await cart.removeDish(cartDish, amount, stack);
       } catch (e) {
         if (e.code === 1) {
           return responseWithErrorMessage(res, e.body);
@@ -327,7 +328,8 @@ interface CartAddData {
 interface CartRemoveData {
   cartId: string,
   amount?: number,
-  dishId: string
+  dishId: string,
+  stack?: boolean
 }
 
 interface CartSetData {

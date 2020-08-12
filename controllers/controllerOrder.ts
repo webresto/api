@@ -140,6 +140,7 @@ export default async function (req: ReqType, res: ResType) {
       data.address.city = data.address.city || await SystemInfo.use('city');
     }
 
+    // PAYMENT тут проверка если есть в заказе пеймент то делаем платеж вначале потом идет оплата и ордер
     const success = await cart.order();
 
     const newCart = await Cart.create({id: uuid()});
