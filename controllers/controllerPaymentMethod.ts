@@ -4,7 +4,7 @@
  * @apiGroup Controller
  * @apiDescription Получение списка платежных систем
  *
- * @apiSuccess {Array} Список платежных методов доступных для оплаты 
+ * @apiSuccess {Array} PaymentMethodsArray Список платежных методов доступных для оплаты 
  *
  * @apiError (500) ServerError Ошибка сервера
  */
