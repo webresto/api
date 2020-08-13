@@ -2,9 +2,10 @@
  * @api {POST} /api/0.5/order Создание заказа
  * @apiName CreateOrder
  * @apiGroup Order
- * @apiDescription Позволяет создать заказ, который будет создан на rmsAdapter
+ * @apiDescription Позволяет оформить заказ, в зависимости от paymentmethod перейдет на оплату или оформит заказ сразу
  *
  * @apiParam {String} cartId ID корзины
+ * @apiParam {String} paymentMethodId ID платежного метода полученного при запросе на /api/0.5/paymentmethod
  * @apiParam {String} [comment] Комментарий к заказу
  * @apiParam {Integer} [personsCount=1] Количество персон
  * @apiParam {String} [customData] Специальные данные
@@ -125,7 +126,7 @@ export default async function (req: ReqType, res: ResType) {
   }
 
   try {
-    let cart = await Cart.findOne({id: data.cartId});
+    let cart = await Cart.findOne({id: data.cartId}); //TODO почему тут let а в check const
     if (!cart) {
       return res.json({
         message: {
@@ -140,11 +141,31 @@ export default async function (req: ReqType, res: ResType) {
       data.address.city = data.address.city || await SystemInfo.use('city');
     }
 
-    // PAYMENT тут проверка если есть в заказе пеймент то делаем платеж вначале потом идет оплата и ордер
+
+    if (data.paymentMethodId){
+      if(!PaymentMethod.checkAvailable(data.paymentMethodId)){
+        return res.json({
+          cart: await Cart.returnFullCart(cart),
+          message: {
+            type: 'error',
+            title: 'Ошибка',
+            body: "Проверка платежной системы завершилась неудачей"
+          }
+       });
+      }
+      if(PaymentMethod.isPaymentPromise(data.paymentMethodId)){
+        // PAYMENT проверка
+      }
+    }
+
+
+
+        // PAYMENT тут проверка если есть в заказе пеймент то делаем платеж вначале потом идет оплата и ордер
+
+
+
     const success = await cart.order();
-
     const newCart = await Cart.create({id: uuid()});
-
     if (success == 0) {
       return res.json({
         cart: await Cart.returnFullCart(newCart),

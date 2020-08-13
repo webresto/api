@@ -106,7 +106,7 @@ exports.default = {
         const cartId = data.cartId;
         const amount = data.amount || 1;
         const dishId = data.dishId;
-        const is_stack  = data.stack || false;
+        const stack = data.stack || false;
         if (!cartId)
             return res.badRequest('cartId is required');
         if (!dishId)
@@ -118,7 +118,7 @@ exports.default = {
             }
             const cartDish = await CartDish.findOne(dishId);
             try {
-                await cart.removeDish(cartDish, amount);
+                await cart.removeDish(cartDish, amount, stack);
             }
             catch (e) {
                 if (e.code === 1) {

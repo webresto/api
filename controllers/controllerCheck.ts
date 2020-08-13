@@ -6,6 +6,7 @@
  *
  * @apiParam {String} cartId ID корзины
  * @apiParam {String} [comment] Комментарий к заказу
+ * @apiParam {String} paymentMethodId ID платежного метода полученного при запросе на /api/0.5/paymentmethod
  * @apiParam {Integer} [personsCount=1] Количество персон
  * @apiParam {String} [customData] Специальные данные
  * @apiParam {Boolean} selfDelivery Тип доставки
@@ -81,11 +82,12 @@ export default async function (req: ReqType, res: ResType) {
     });
   }
 
+
+
   const isSelfService = data.selfDelivery;
 
   try {
     const cart = await Cart.findOne(data.cartId);
-
     if (!cart) {
       return res.json({
         message: {
@@ -94,6 +96,19 @@ export default async function (req: ReqType, res: ResType) {
           body: `Cart with id ${data.cartId} not found`
         }
       });
+    }
+
+    if (data.paymentMethodId){
+      if(!PaymentMethod.checkAvailable(data.paymentMethodId)){
+        return res.json({
+          cart: await Cart.returnFullCart(cart),
+          message: {
+            type: 'error',
+            title: 'Ошибка',
+            body: "Проверка платежной системы завершилась неудачей"
+          }
+       });
+      }
     }
 
     if (data.address) {
