@@ -152,7 +152,7 @@ async function default_1(req, res) {
             message.body = "Не указан город";
         }
         else if (e.code === 8) {
-            message.body = "Указанная улица не найдена";
+            message.body = "Платежная система недоступна";
         }
         if (message.body) {
             return res.badRequest(message);
