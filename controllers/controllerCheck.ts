@@ -157,7 +157,7 @@ export default async function (req: ReqType, res: ResType) {
     } else if (e.code === 7) {
       message.body = "Не указан город";
     } else if (e.code === 8) {
-      message.body = "Указанная улица не найдена";
+      message.body = "Платежная система недоступна";
     }
 
     if (message.body) {
