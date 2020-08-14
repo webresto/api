@@ -144,11 +144,21 @@ async function default_1(req, res) {
                     }
                 });
             }
-            if (PaymentMethod.isPaymentPromise(data.paymentMethodId)) {
-                // PAYMENT проверка
+            if (!PaymentMethod.isPaymentPromise(data.paymentMethodId)) {
+                // PAYMENT тут логика пеймент промиса (карт.пеймент некст)
+                return res.json({
+                    cart: await Cart.returnFullCart(cart),
+                    action: {
+                        paymentRedirect: "http://example.com"
+                    },
+                    message: {
+                        type: 'error',
+                        title: 'Ошибка',
+                        body: "Проверка платежной системы завершилась неудачей"
+                    }
+                });
             }
         }
-        // PAYMENT тут проверка если есть в заказе пеймент то делаем платеж вначале потом идет оплата и ордер
         const success = await cart.order();
         const newCart = await Cart.create({ id: uuid() });
         if (success == 0) {

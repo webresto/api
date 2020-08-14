@@ -142,6 +142,8 @@ export default async function (req: ReqType, res: ResType) {
     }
 
 
+
+
     if (data.paymentMethodId){
       if(!PaymentMethod.checkAvailable(data.paymentMethodId)){
         return res.json({
@@ -151,17 +153,23 @@ export default async function (req: ReqType, res: ResType) {
             title: 'Ошибка',
             body: "Проверка платежной системы завершилась неудачей"
           }
-       });
+        });
       }
-      if(PaymentMethod.isPaymentPromise(data.paymentMethodId)){
-        // PAYMENT проверка
+      if(!PaymentMethod.isPaymentPromise(data.paymentMethodId)){
+        // PAYMENT тут логика пеймент промиса (карт.пеймент некст)
+        return res.json({
+          cart: await Cart.returnFullCart(cart),
+          action: {
+            paymentRedirect: "http://example.com"
+          },
+          message: {
+            type: 'error',
+            title: 'Ошибка',
+            body: "Проверка платежной системы завершилась неудачей"
+          }
+        });
       }
-    }
-
-
-
-        // PAYMENT тут проверка если есть в заказе пеймент то делаем платеж вначале потом идет оплата и ордер
-
+    }      
 
 
     const success = await cart.order();
