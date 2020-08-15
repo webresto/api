@@ -6,6 +6,7 @@
  *
  * @apiParam {String} cartId ID корзины
  * @apiParam {String} [comment] Комментарий к заказу
+ * @apiParam {String} paymentMethodId ID платежного метода полученного при запросе на /api/0.5/paymentmethod
  * @apiParam {Integer} [personsCount=1] Количество персон
  * @apiParam {String} [customData] Специальные данные
  * @apiParam {Boolean} selfDelivery Тип доставки
@@ -41,4 +42,4 @@
       }
  *  }
  */
-export default function (req: ReqType, res: ResType): Promise<void | import("typed-sails").sails.Response>;
+export default function (req: ReqType, res: ResType): Promise<any>;

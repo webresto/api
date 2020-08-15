@@ -1,3 +1,3 @@
-/// <reference types="@webresto/core/lib/globaltypes" />
-/// <reference types="@webresto/core/models/systeminfo" />
-export default function (req: ReqType, res: ResType): Promise<void>;
+/// <reference types="@webresto/core/lib/globalTypes" />
+/// <reference types="@webresto/core/models/SystemInfo" />
+export default function (req: ReqType, res: ResType): Promise<any>;

@@ -43,10 +43,10 @@
  *  }
  */
 declare const _default: {
-    add: (req: import("typed-sails").sails.Request, res: import("typed-sails").sails.Response) => Promise<any>;
-    remove: (req: import("typed-sails").sails.Request, res: import("typed-sails").sails.Response) => Promise<any>;
-    get: (req: import("typed-sails").sails.Request, res: import("typed-sails").sails.Response) => Promise<any>;
-    set: (req: import("typed-sails").sails.Request, res: import("typed-sails").sails.Response) => Promise<any>;
-    setComment: (req: import("typed-sails").sails.Request, res: import("typed-sails").sails.Response) => Promise<any>;
+    add: (req: any, res: any) => Promise<any>;
+    remove: (req: any, res: any) => Promise<any>;
+    get: (req: any, res: any) => Promise<any>;
+    set: (req: any, res: any) => Promise<any>;
+    setComment: (req: any, res: any) => Promise<any>;
 };
 export default _default;

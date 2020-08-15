@@ -2,9 +2,10 @@
  * @api {POST} /api/0.5/order Создание заказа
  * @apiName CreateOrder
  * @apiGroup Order
- * @apiDescription Позволяет создать заказ, который будет создан на rmsAdapter
+ * @apiDescription Позволяет оформить заказ, в зависимости от paymentmethod перейдет на оплату или оформит заказ сразу
  *
  * @apiParam {String} cartId ID корзины
+ * @apiParam {String} paymentMethodId ID платежного метода полученного при запросе на /api/0.5/paymentmethod
  * @apiParam {String} [comment] Комментарий к заказу
  * @apiParam {Integer} [personsCount=1] Количество персон
  * @apiParam {String} [customData] Специальные данные
@@ -84,4 +85,4 @@
       }
  *  }
  */
-export default function (req: ReqType, res: ResType): Promise<void | import("typed-sails").sails.Response>;
+export default function (req: ReqType, res: ResType): Promise<any>;

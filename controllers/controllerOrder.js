@@ -145,6 +145,7 @@ async function default_1(req, res) {
                 });
             }
             if (!PaymentMethod.isPaymentPromise(data.paymentMethodId)) {
+                console.log(">>>>", PaymentMethod.isPaymentPromise(data.paymentMethodId));
                 // PAYMENT тут логика пеймент промиса (карт.пеймент некст)
                 return res.json({
                     cart: await Cart.returnFullCart(cart),
@@ -162,6 +163,19 @@ async function default_1(req, res) {
         const success = await cart.order();
         const newCart = await Cart.create({ id: uuid() });
         if (success == 0) {
+            if (data.paymentMethodId) {
+                return res.json({
+                    cart: await Cart.returnFullCart(newCart),
+                    action: {
+                        paymentRedirect: "http://example.com"
+                    },
+                    message: {
+                        type: 'info',
+                        title: 'Заказ принят успешно',
+                        body: ''
+                    }
+                });
+            }
             return res.json({
                 cart: await Cart.returnFullCart(newCart),
                 message: {
@@ -177,7 +191,7 @@ async function default_1(req, res) {
                 message: {
                     type: 'error',
                     title: 'Ошибка',
-                    body: await SystemInfo.use('orderFail')
+                    body: await SystemInfo.use('orderFail') + ' #' + success
                 }
             });
         }
