@@ -15,14 +15,13 @@ module.exports = async function (req, res, next) {
         start = s.startDate.getTime();
       if (s.stopDate)
         stop = s.stopDate.getTime();
-
       const now = moment().valueOf();
       return between(start, stop, now);
     });
-    // sails.log.info(maints);
-
+    sails.log.verbose("API > MAINTENANCE >",maints);
     const maint = maints[0];
     if (maints.length) {
+      res.status(503);
       return res.json(maint);
     } else {
       return next();
