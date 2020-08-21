@@ -4,6 +4,7 @@ import controllerCart from "@webresto/api/controllers/controllerCart";
 import controllerMenu from "@webresto/api/controllers/controllerMenu";
 import controllerPaymentMethod from "@webresto/api/controllers/controllerPaymentMethod";
 import controllerOrder from "@webresto/api/controllers/controllerOrder";
+import controllerGetOrder from "@webresto/api/controllers/controllerGetOrder";
 import controllerSystem from "@webresto/api/controllers/controllerSystem";
 import controllerGetDeliveries from "@webresto/api/controllers/controllerGetDeliveries";
 import controllerCheck from "@webresto/api/controllers/controllerCheck";
@@ -32,6 +33,7 @@ export default async function () {
     HookTools.bindRouter(baseRoute + 'system', controllerSystem);
     HookTools.bindRouter(baseRoute + 'delivery', controllerGetDeliveries);
     HookTools.bindRouter(baseRoute + 'check', controllerCheck, 'POST');
+    HookTools.bindRouter(baseRoute + 'order/:orderNumber', controllerGetOrder, 'GET');
     HookTools.bindRouter(baseRoute + 'paymentmethods', controllerPaymentMethod, 'GET');
   } catch (e) {
     sails.log.error('api > afterHook > error1', e);
