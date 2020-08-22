@@ -1,11 +1,11 @@
 "use strict";
 /**
- * @api {POST} /api/0.5/getOrder Проверка заказа
+ * @api {POST} /api/0.5/order/:number Проверка заказа
  * @apiName GetOrder
  * @apiGroup Order
- * @apiDescription Получение ордера
+ * @apiDescription Получение информации о заказе,
  *
- * @apiParam {String} cartId ID корзины
+ * @apiParam {String} number rmsOrderNumber корзины который выдала РМС система заказу пр регстрации
  *
  * @apiSuccess {[Cart](#api-Models-ApiCart)} cart Коризна с заполненым поле delivery. Если delivery 0, то доставка бесплатная
  * @apiSuccess {JSON} message Сообщение
