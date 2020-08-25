@@ -52,7 +52,7 @@ export default async function (req: ReqType, res: ResType) {
   }
 
   try {
-    const cart = await Cart.findOne({rmsOrderNumber: orderNumber});
+    const cart = await Cart.findOne({or: [{id: orderNumber},{rmsOrderNumber: orderNumber}]});
     if (!cart) {
       return res.json({
         message: {
