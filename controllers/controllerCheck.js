@@ -102,7 +102,8 @@ async function default_1(req, res) {
         if (data.address) {
             data.address.city = data.address.city || await SystemInfo.use('city');
         }
-        const success = await cart.check(data.customer, isSelfService, data.address, data.paymentMethodId);
+        let rejectReason;
+        const success = await cart.check(data.customer, isSelfService, data.address, data.paymentMethodId, rejectReason);
         if (success) {
             return res.json({
                 cart: await Cart.returnFullCart(cart),
@@ -117,9 +118,9 @@ async function default_1(req, res) {
             return res.json({
                 cart: await Cart.returnFullCart(cart),
                 message: {
-                    type: 'info',
+                    type: 'warning',
                     title: await SystemInfo.use('zoneDontWork'),
-                    body: ''
+                    body: 'Не удалось проверить корзину'
                 }
             });
         }
