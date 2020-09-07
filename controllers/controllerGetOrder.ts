@@ -53,6 +53,11 @@ export default async function (req: ReqType, res: ResType) {
 
   try {
     const cart = await Cart.findOne({or: [{id: orderNumber},{rmsOrderNumber: orderNumber}]});
+    const paymentMethod = await PaymentMethod.findOne({id: cart.paymentMethod});
+
+    let orderData = await Cart.returnFullCart(cart)
+    //@ts-ignore    
+    orderData.paymentMethod = paymentMethod;
     if (!cart) {
       return res.json({
         message: {
@@ -63,7 +68,7 @@ export default async function (req: ReqType, res: ResType) {
       });
     } else {
       return res.json({
-        cart: await Cart.returnFullCart(cart)
+        orderData: orderData
       });
     }
   } catch (e) {

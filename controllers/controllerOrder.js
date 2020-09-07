@@ -101,15 +101,6 @@ async function default_1(req, res) {
         });
     }
     await getEmitter_1.default().emit('core-order-before-order', data);
-    if (!data.customer) {
-        return res.badRequest({
-            message: {
-                type: 'error',
-                title: 'customer is required',
-                body: 'Необходимо заполнить данные о заказчике'
-            }
-        });
-    }
     if (!data.cartId) {
         return res.badRequest({
             message: {
@@ -120,9 +111,10 @@ async function default_1(req, res) {
         });
     }
     try {
-        let cart = await Cart.findOne({ id: data.cartId }); //TODO почему тут let а в check const
+        var cart = await Cart.findOne({ id: data.cartId });
+        console.log("11111", cart);
         if (!cart) {
-            return res.json({
+            return res.badRequest({
                 message: {
                     type: 'error',
                     title: 'Cart not found',
@@ -130,58 +122,50 @@ async function default_1(req, res) {
                 }
             });
         }
-        if (data.address) {
-            data.address.city = data.address.city || await SystemInfo.use('city');
-        }
-        if (data.paymentMethodId) {
-            if (!PaymentMethod.checkAvailable(data.paymentMethodId)) {
-                return res.json({
+        if (cart.paymentMethod) {
+            if (!PaymentMethod.checkAvailable(cart.paymentMethod)) {
+                return res.badRequest({
                     cart: await Cart.returnFullCart(cart),
                     message: {
                         type: 'error',
                         title: 'Ошибка',
-                        body: "Проверка платежной системы завершилась неудачей"
+                        body: "Проверка платежной системы завершилась неудачно"
                     }
                 });
             }
-            if (!PaymentMethod.isPaymentPromise(data.paymentMethodId)) {
-                console.log(">>>>", PaymentMethod.isPaymentPromise(data.paymentMethodId));
-                // PAYMENT тут логика пеймент промиса (карт.пеймент некст)
-                return res.json({
-                    cart: await Cart.returnFullCart(cart),
-                    action: {
-                        paymentRedirect: "http://example.com"
-                    },
-                    message: {
-                        type: 'error',
-                        title: 'Ошибка',
-                        body: "Проверка платежной системы завершилась неудачей"
-                    }
-                });
+            if (!cart.isPaymentPromise) {
+                try {
+                    let paymentResponse = await cart.payment();
+                    return res.json({
+                        cart: await Cart.returnFullCart(cart),
+                        action: {
+                            paymentRedirect: paymentResponse.redirectLink
+                        }
+                    });
+                }
+                catch (e) {
+                    sails.log.verbose("API > ORDER > PAYMENT > DO REGISTER", e);
+                    return res.badRequest({
+                        cart: await Cart.returnFullCart(cart),
+                        message: {
+                            type: 'error',
+                            title: 'Ошибка',
+                            body: "Попытка регистрации платежа завершилась неудачно"
+                        }
+                    });
+                }
             }
         }
+        // Если платежная система не указана, то оформляем заказ.
         const success = await cart.order();
         const newCart = await Cart.create({ id: uuid() });
         if (success == 0) {
-            if (data.paymentMethodId) {
-                return res.json({
-                    cart: await Cart.returnFullCart(newCart),
-                    action: {
-                        paymentRedirect: "http://example.com"
-                    },
-                    message: {
-                        type: 'info',
-                        title: 'Заказ принят успешно',
-                        body: ''
-                    }
-                });
-            }
             return res.json({
                 cart: await Cart.returnFullCart(newCart),
                 message: {
                     type: 'info',
-                    title: 'Заказ принят успешно',
-                    body: ''
+                    title: 'Успешно',
+                    body: 'Ваш заказ принят в обработку'
                 }
             });
         }
@@ -191,7 +175,7 @@ async function default_1(req, res) {
                 message: {
                     type: 'error',
                     title: 'Ошибка',
-                    body: await SystemInfo.use('orderFail') + ' #' + success
+                    body: await SystemInfo.use('orderFail') + ' | код ошибки #' + success
                 }
             });
         }

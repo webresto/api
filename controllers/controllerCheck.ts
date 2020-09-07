@@ -114,9 +114,21 @@ export default async function (req: ReqType, res: ResType) {
     if (data.address) {
       data.address.city = data.address.city || await SystemInfo.use('city');
     }
-    let rejectReason
-    const success = await cart.check(data.customer, isSelfService, data.address, data.paymentMethodId, rejectReason);
 
+
+    cart.personsCount = (data.personsCount) ? data.personsCount : "";
+
+
+    console.log(data.comment);
+    if (data.comment)
+      cart.comment = data.comment;
+  
+    if (data.date)
+      cart.date = data.date;
+    
+    await cart.save();
+    const success = await cart.check(data.customer, isSelfService, data.address, data.paymentMethodId );
+    
     if (success) {
       return res.json({
         cart: await Cart.returnFullCart(cart),

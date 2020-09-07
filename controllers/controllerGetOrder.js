@@ -47,6 +47,10 @@ async function default_1(req, res) {
     }
     try {
         const cart = await Cart.findOne({ or: [{ id: orderNumber }, { rmsOrderNumber: orderNumber }] });
+        const paymentMethod = await PaymentMethod.findOne({ id: cart.paymentMethod });
+        let orderData = await Cart.returnFullCart(cart);
+        //@ts-ignore    
+        orderData.paymentMethod = paymentMethod;
         if (!cart) {
             return res.json({
                 message: {
@@ -58,7 +62,7 @@ async function default_1(req, res) {
         }
         else {
             return res.json({
-                cart: await Cart.returnFullCart(cart)
+                orderData: orderData
             });
         }
     }
