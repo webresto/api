@@ -128,6 +128,7 @@ export default async function (req: ReqType, res: ResType) {
       });
     }
 
+    
     if (cart.paymentMethod){
       if(!PaymentMethod.checkAvailable(cart.paymentMethod)){
         return res.badRequest({
