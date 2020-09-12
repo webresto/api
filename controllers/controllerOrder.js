@@ -88,7 +88,6 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const getEmitter_1 = require("@webresto/core/lib/getEmitter");
-const uuid = require("uuid");
 async function default_1(req, res) {
     let data = req.body;
     if (!data) {
@@ -158,7 +157,8 @@ async function default_1(req, res) {
         }
         // Если платежная система не указана, то оформляем заказ.
         const success = await cart.order();
-        const newCart = await Cart.create({ id: uuid() });
+        //@ts-ignore
+        const newCart = await Cart.create();
         if (success == 0) {
             return res.json({
                 cart: await Cart.returnFullCart(newCart),

@@ -140,7 +140,7 @@ export default {
         if (cartId)
           cart = await Cart.findOne(cartId).populate('dishes');
         if (!cart)
-          cart = await Cart.create({id: uuid()});
+          cart = await Cart.create();
         const dish = await Dish.findOne({id: dishId});
         if (!dish) {
           return responseWithErrorMessage(res, `dish with id ${dishId} not found`);
@@ -230,7 +230,8 @@ export default {
 
     let cart = await Cart.findOne(cartId);
     if (!cart) {
-      cart = await Cart.create({id: uuid()});
+      //@ts-ignore
+      cart = await Cart.create();
       //return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);
     }
 

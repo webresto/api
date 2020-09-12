@@ -53,6 +53,8 @@ export default async function (req: ReqType, res: ResType) {
 
   try {
     const cart = await Cart.findOne({or: [{id: orderNumber},{rmsOrderNumber: orderNumber}]});
+    
+    console.log("cart>>>>>>>>>>>>>>>",cart);
     const paymentMethod = await PaymentMethod.findOne({id: cart.paymentMethod});
 
     let orderData = await Cart.returnFullCart(cart)

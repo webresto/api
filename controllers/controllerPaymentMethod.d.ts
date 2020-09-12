@@ -8,4 +8,4 @@
  *
  * @apiError (500) ServerError Ошибка сервера
  */
-export default function (req: ReqType, res: ResType): Promise<any>;
+export default function (req: ReqType, res: ResType): any;

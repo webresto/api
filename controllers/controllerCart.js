@@ -45,7 +45,6 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const responseWithErrorMessage_1 = require("@webresto/api/lib/responseWithErrorMessage");
-const uuid = require("uuid");
 const checkExpression_1 = require("@webresto/core/lib/checkExpression");
 exports.default = {
     add: async function (req, res) {
@@ -63,7 +62,7 @@ exports.default = {
                 if (cartId)
                     cart = await Cart.findOne(cartId).populate('dishes');
                 if (!cart)
-                    cart = await Cart.create({ id: uuid() });
+                    cart = await Cart.create();
                 const dish = await Dish.findOne({ id: dishId });
                 if (!dish) {
                     return responseWithErrorMessage_1.default(res, `dish with id ${dishId} not found`);
@@ -145,7 +144,8 @@ exports.default = {
             return res.badRequest('cartId is required');
         let cart = await Cart.findOne(cartId);
         if (!cart) {
-            cart = await Cart.create({ id: uuid() });
+            //@ts-ignore
+            cart = await Cart.create();
             //return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);
         }
         cart = await Cart.returnFullCart(cart);

@@ -47,6 +47,7 @@ async function default_1(req, res) {
     }
     try {
         const cart = await Cart.findOne({ or: [{ id: orderNumber }, { rmsOrderNumber: orderNumber }] });
+        console.log("cart>>>>>>>>>>>>>>>", cart);
         const paymentMethod = await PaymentMethod.findOne({ id: cart.paymentMethod });
         let orderData = await Cart.returnFullCart(cart);
         //@ts-ignore    

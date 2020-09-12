@@ -166,7 +166,8 @@ export default async function (req: ReqType, res: ResType) {
   
     // Если платежная система не указана, то оформляем заказ.
     const success = await cart.order();
-    const newCart = await Cart.create({id: uuid()});
+    //@ts-ignore
+    const newCart = await Cart.create();
     if (success == 0) {
       return res.json({
         cart: await Cart.returnFullCart(newCart),
