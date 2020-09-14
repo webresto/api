@@ -1,1 +1,1 @@
-export default function (req: ReqType, res: ResType): any;
+export default function (req: ReqType, res: ResType): Promise<any>;

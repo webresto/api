@@ -9,7 +9,7 @@
  * @apiParam {String} paymentMethodId ID платежного метода полученного при запросе на /api/0.5/paymentmethod
  * @apiParam {Integer} [personsCount=1] Количество персон
  * @apiParam {String} [customData] Специальные данные
- * @apiParam {Boolean} selfDelivery Тип доставки
+ * @apiParam {Boolean} selfService Тип доставки
  * @apiParam {JSON} address Адресс доставки
  * @apiParam {JSON} customer Информация о заказчике
  *
@@ -42,4 +42,4 @@
       }
  *  }
  */
-export default function (req: ReqType, res: ResType): any;
+export default function (req: ReqType, res: ResType): Promise<any>;

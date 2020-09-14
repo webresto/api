@@ -10,7 +10,7 @@
  * @apiParam {String} paymentMethodId ID платежного метода полученного при запросе на /api/0.5/paymentmethod
  * @apiParam {Integer} [personsCount=1] Количество персон
  * @apiParam {String} [customData] Специальные данные
- * @apiParam {Boolean} selfDelivery Тип доставки
+ * @apiParam {Boolean} selfService Тип доставки
  * @apiParam {JSON} address Адресс доставки
  * @apiParam {JSON} customer Информация о заказчике
  *
@@ -75,7 +75,7 @@ async function default_1(req, res) {
             }
         });
     }
-    const isSelfService = data.selfDelivery;
+    const isSelfService = data.selfService;
     try {
         const cart = await Cart.findOne(data.cartId);
         if (!cart) {

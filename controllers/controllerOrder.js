@@ -10,7 +10,7 @@
  * @apiParam {String} [comment] Комментарий к заказу
  * @apiParam {Integer} [personsCount=1] Количество персон
  * @apiParam {String} [customData] Специальные данные
- * @apiParam {Boolean} selfDelivery Тип доставки
+ * @apiParam {Boolean} selfService Тип доставки
  * @apiParam {JSON} address Адресс доставки
  * @apiParam {JSON} customer Информация о заказчике
  *
@@ -31,7 +31,7 @@
  *  {
       "cartId": "string",
       "comment": "string",
-      "selfDelivery": false,
+      "selfService": false,
       "address": {
         "city": "string",
         "streetId": "string, required",

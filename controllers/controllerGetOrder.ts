@@ -6,7 +6,7 @@
  *
  * @apiParam {String} number rmsOrderNumber корзины который выдала РМС система заказу пр регстрации
  *
- * @apiSuccess {[Cart](#api-Models-ApiCart)} cart Коризна с заполненым поле delivery. Если delivery 0, то доставка бесплатная
+ * @apiSuccess {[Cart](#api-Models-ApiCart)} cart Коризна с заполненым поле delivery. Если deliveryTotal 0, то доставка бесплатная
  * @apiSuccess {JSON} message Сообщение
  *
  * @apiSuccessExample {JSON} Message:
@@ -53,8 +53,6 @@ export default async function (req: ReqType, res: ResType) {
 
   try {
     const cart = await Cart.findOne({or: [{id: orderNumber},{rmsOrderNumber: orderNumber}]});
-    
-    console.log("cart>>>>>>>>>>>>>>>",cart);
     const paymentMethod = await PaymentMethod.findOne({id: cart.paymentMethod});
 
     let orderData = await Cart.returnFullCart(cart)

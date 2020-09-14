@@ -6,7 +6,7 @@
  *
  * @apiParam {String} number rmsOrderNumber корзины который выдала РМС система заказу пр регстрации
  *
- * @apiSuccess {[Cart](#api-Models-ApiCart)} cart Коризна с заполненым поле delivery. Если delivery 0, то доставка бесплатная
+ * @apiSuccess {[Cart](#api-Models-ApiCart)} cart Коризна с заполненым поле delivery. Если deliveryTotal 0, то доставка бесплатная
  * @apiSuccess {JSON} message Сообщение
  *
  * @apiSuccessExample {JSON} Message:
@@ -32,4 +32,4 @@
       }
  *  }
  */
-export default function (req: ReqType, res: ResType): any;
+export default function (req: ReqType, res: ResType): Promise<any>;
