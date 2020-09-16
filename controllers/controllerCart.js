@@ -125,6 +125,9 @@ exports.default = {
                 }
             }
             cart = await Cart.returnFullCart(cart);
+            if (cart.state === "ORDER") {
+                cart = await Cart.create();
+            }
             return res.json({
                 cart: cart,
                 message: {
