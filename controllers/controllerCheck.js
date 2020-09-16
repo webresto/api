@@ -78,6 +78,15 @@ async function default_1(req, res) {
     const isSelfService = data.selfService;
     try {
         const cart = await Cart.findOne(data.cartId);
+        if (cart.paid || cart.state === 'ORDER') {
+            return res.badRequest({
+                message: {
+                    type: 'error',
+                    title: 'Ошибка',
+                    body: 'Корзина уже заказана'
+                }
+            });
+        }
         if (!cart) {
             return res.json({
                 message: {
@@ -109,7 +118,13 @@ async function default_1(req, res) {
         if (data.date)
             cart.date = data.date;
         await cart.save();
-        const success = await cart.check(data.customer, isSelfService, data.address, data.paymentMethodId);
+        let success;
+        try {
+            success = await cart.check(data.customer, isSelfService, data.address, data.paymentMethodId);
+        }
+        catch (e) {
+            sails.log.error("API > CHECK > cart.check", e);
+        }
         if (success) {
             return res.json({
                 cart: await Cart.returnFullCart(cart),

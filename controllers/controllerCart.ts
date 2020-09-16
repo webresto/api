@@ -139,7 +139,8 @@ export default {
         let cart;
         if (cartId)
           cart = await Cart.findOne(cartId).populate('dishes');
-        if (!cart)
+
+        if (!cart || cart.paid || cart.state === 'ORDER' )
           cart = await Cart.create();
         const dish = await Dish.findOne({id: dishId});
         if (!dish) {
@@ -196,6 +197,9 @@ export default {
 
     try {
       let cart = await Cart.findOne(cartId);
+      if (cart.paid || cart.state === 'ORDER' ){
+        return responseWithErrorMessage(res, `Cart with id ${cartId} was ordered`);
+      }
       if (!cart) {
         return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);
       }
@@ -211,9 +215,7 @@ export default {
       }
 
       cart = await Cart.returnFullCart(cart);
-      if (cart.state === "ORDER") {
-        cart = await Cart.create();
-      }
+      
       return res.json({
         cart: cart,
         message: {
