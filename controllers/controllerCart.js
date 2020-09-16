@@ -55,6 +55,61 @@ exports.default = {
             const modifiers = data.modifiers;
             const comment = data.comment;
             const dishId = data.dishId;
+            const replace = data.replace || false;
+            const cartDishId = data.id || undefined;
+            if (!dishId)
+                return res.badRequest('dishId is required');
+            try {
+                let cart;
+                if (cartId)
+                    cart = await Cart.findOne(cartId).populate('dishes');
+                if (!cart || cart.paid || cart.state === 'ORDER')
+                    cart = await Cart.create();
+                const dish = await Dish.findOne({ id: dishId });
+                if (!dish) {
+                    return responseWithErrorMessage_1.default(res, `dish with id ${dishId} not found`);
+                }
+                try {
+                    const l1 = cart.dishes.length || 0;
+                    if (checkExpression_1.default(dish) === 'promo') {
+                        return responseWithErrorMessage_1.default(res, `"${dish.name}" является акционным и не может быть добавлено пользователем`);
+                    }
+                    await cart.addDish(dish, amount, modifiers, comment, 'user', replace, cartDishId);
+                    cart = await Cart.returnFullCart(cart);
+                    const added = l1 !== cart.dishes.length;
+                    const message = added ? "Блюдо успешно добавлено в корзину" : "Не удалось добавить блюдо";
+                    const type = added ? "info" : "error";
+                    return res.json({
+                        cart: cart,
+                        message: {
+                            type: type,
+                            title: dish.name,
+                            body: message
+                        }
+                    });
+                }
+                catch (err) {
+                    if (err.code === 1) {
+                        return responseWithErrorMessage_1.default(res, `"${dish.name}" доступно для заказа: ${dish.balance}`);
+                    }
+                }
+            }
+            catch (e) {
+                return res.serverError(e);
+            }
+        }
+        else {
+            return res.notFound("Method not found: " + req.method);
+        }
+    },
+    change: async function (req, res) {
+        if (req.method === 'PUT') {
+            let data = req.body;
+            const cartId = data.cartId;
+            const amount = data.amount || 1;
+            const modifiers = data.modifiers;
+            const comment = data.comment;
+            const dishId = data.dishId;
             if (!dishId)
                 return res.badRequest('dishId is required');
             try {
