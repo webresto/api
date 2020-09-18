@@ -39,6 +39,7 @@ async function default_1(req, res) {
         let restrictions = {};
         restrictions.workTime = await SystemInfo.use('workTime');
         restrictions.periodPossibleForOrder = await SystemInfo.use('PeriodPossibleForOrder');
+        restrictions.timezone = await SystemInfo.use('timezone');
         return res.json(restrictions);
     }
     catch (e) {

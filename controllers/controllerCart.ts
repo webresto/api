@@ -145,6 +145,7 @@ export default {
           cart = await Cart.findOne(cartId).populate('dishes');
 
         if (!cart || cart.paid || cart.state === 'ORDER' )
+        //@ts-ignore
           cart = await Cart.create();
 
         const dish = await Dish.findOne({id: dishId});
@@ -164,7 +165,6 @@ export default {
           sails.log.verbose("API > CART > cart.addDish:",dish, amount, modifiers, comment, 'user', replace, cartDishId);
           await cart.addDish(dish, amount, modifiers, comment, 'user', replace, cartDishId);
           cart = await Cart.returnFullCart(cart);
-          
           const added = l1 !== cart.dishes.length;
           const message = added ? "Блюдо успешно добавлено в корзину" : "Не удалось добавить блюдо";
           const type = added ? "info" : "error";
@@ -242,7 +242,7 @@ export default {
       return res.badRequest('cartId is required');
 
     let cart = await Cart.findOne(cartId);
-    if (!cart) {
+    if (!cart || cart.paid || cart.state === 'ORDER') {
       //@ts-ignore
       cart = await Cart.create();
       //return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);

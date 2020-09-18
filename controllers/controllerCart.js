@@ -65,6 +65,7 @@ exports.default = {
                 if (cartId)
                     cart = await Cart.findOne(cartId).populate('dishes');
                 if (!cart || cart.paid || cart.state === 'ORDER')
+                    //@ts-ignore
                     cart = await Cart.create();
                 const dish = await Dish.findOne({ id: dishId });
                 if (!dish) {
@@ -150,7 +151,7 @@ exports.default = {
         if (!cartId)
             return res.badRequest('cartId is required');
         let cart = await Cart.findOne(cartId);
-        if (!cart) {
+        if (!cart || cart.paid || cart.state === 'ORDER') {
             //@ts-ignore
             cart = await Cart.create();
             //return responseWithErrorMessage(res, `Cart with id ${cartId} not found`);

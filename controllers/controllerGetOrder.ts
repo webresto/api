@@ -37,7 +37,7 @@ import Cart from "@webresto/core/models/Cart";
 import getEmitter from "@webresto/core/lib/getEmitter";
 import SystemInfo from "@webresto/core/models/SystemInfo";
 import OrderData from "@webresto/core/modelsHelp/OrderData";
-
+import responseWithErrorMessage from "@webresto/api/lib/responseWithErrorMessage";
 export default async function (req: ReqType, res: ResType) {
   let orderNumber = req.params.orderNumber; 
 
@@ -50,9 +50,17 @@ export default async function (req: ReqType, res: ResType) {
       }
     });
   }
-
+  let cart: Cart;
   try {
-    const cart = await Cart.findOne({or: [{id: orderNumber},{rmsOrderNumber: orderNumber}]});
+    try {
+      cart = await Cart.findOne({or: [{id: orderNumber},{rmsOrderNumber: orderNumber}, { id:{ contains: orderNumber }}]});
+    } catch (error) {
+      return responseWithErrorMessage(res, `Ордер не найдер`)
+    }
+
+    if (!cart){
+      return responseWithErrorMessage(res, `Ордер не найдер`)
+    }
     const paymentMethod = await PaymentMethod.findOne({id: cart.paymentMethod});
 
     let orderData = await Cart.returnFullCart(cart)

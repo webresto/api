@@ -43,6 +43,7 @@ export default async function (req: ReqType, res: ResType) {
     let restrictions :any = {};
     restrictions.workTime = await SystemInfo.use('workTime');
     restrictions.periodPossibleForOrder = await SystemInfo.use('PeriodPossibleForOrder'); 
+    restrictions.timezone = await SystemInfo.use('timezone');
     return res.json(restrictions);
   } catch (e) {
     return res.serverError(e);

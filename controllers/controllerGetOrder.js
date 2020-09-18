@@ -34,6 +34,7 @@
  *  }
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+const responseWithErrorMessage_1 = require("@webresto/api/lib/responseWithErrorMessage");
 async function default_1(req, res) {
     let orderNumber = req.params.orderNumber;
     if (!orderNumber) {
@@ -45,8 +46,17 @@ async function default_1(req, res) {
             }
         });
     }
+    let cart;
     try {
-        const cart = await Cart.findOne({ or: [{ id: orderNumber }, { rmsOrderNumber: orderNumber }] });
+        try {
+            cart = await Cart.findOne({ or: [{ id: orderNumber }, { rmsOrderNumber: orderNumber }, { id: { contains: orderNumber } }] });
+        }
+        catch (error) {
+            return responseWithErrorMessage_1.default(res, `Ордер не найдер`);
+        }
+        if (!cart) {
+            return responseWithErrorMessage_1.default(res, `Ордер не найдер`);
+        }
         const paymentMethod = await PaymentMethod.findOne({ id: cart.paymentMethod });
         let orderData = await Cart.returnFullCart(cart);
         //@ts-ignore    
