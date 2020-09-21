@@ -26,15 +26,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 async function default_1(req, res) {
     let params = req.allParams();
     // Планируется получать от фронта это чтобы потом можно было ввести расчет ограничений по местам приготовлений или както еще
-    if (!params.cartId) {
-        return res.badRequest({
-            message: {
-                type: 'error',
-                title: 'Ошибка',
-                body: 'cartId обязателен'
-            }
-        });
-    }
+    // if (!params.cartId) {
+    //   return res.badRequest({
+    //     message: {
+    //       type: 'error',
+    //       title: 'Ошибка',
+    //       body: 'cartId обязателен'
+    //     }
+    //   });
+    // }
     try {
         let restrictions = {};
         restrictions.workTime = await SystemInfo.use('workTime');

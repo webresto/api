@@ -29,15 +29,15 @@ export default async function (req: ReqType, res: ResType) {
 
 
   // Планируется получать от фронта это чтобы потом можно было ввести расчет ограничений по местам приготовлений или както еще
-  if (!params.cartId) {
-    return res.badRequest({
-      message: {
-        type: 'error',
-        title: 'Ошибка',
-        body: 'cartId обязателен'
-      }
-    });
-  }
+  // if (!params.cartId) {
+  //   return res.badRequest({
+  //     message: {
+  //       type: 'error',
+  //       title: 'Ошибка',
+  //       body: 'cartId обязателен'
+  //     }
+  //   });
+  // }
 
   try {
     let restrictions :any = {};
