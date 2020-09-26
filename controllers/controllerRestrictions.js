@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * @api {POST} /api/0.5/restrictions/:cartId Получить ограничения заказа
  * @apiName Restrictions
@@ -22,7 +23,7 @@
       }
     }
  */
-Object.defineProperty(exports, "__esModule", { value: true });
+const moment = require("moment");
 async function default_1(req, res) {
     let params = req.allParams();
     // Планируется получать от фронта это чтобы потом можно было ввести расчет ограничений по местам приготовлений или както еще
