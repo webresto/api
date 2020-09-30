@@ -35,6 +35,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 const responseWithErrorMessage_1 = require("@webresto/api/lib/responseWithErrorMessage");
+const getEmitter_1 = require("@webresto/core/lib/getEmitter");
 async function default_1(req, res) {
     let orderNumber = req.params.orderNumber;
     if (!orderNumber) {
@@ -61,6 +62,7 @@ async function default_1(req, res) {
         let orderData = await Cart.returnFullCart(cart);
         //@ts-ignore    
         orderData.paymentMethod = paymentMethod;
+        getEmitter_1.default().emit('api-v1-get-order', orderData);
         if (!cart) {
             return res.json({
                 message: {

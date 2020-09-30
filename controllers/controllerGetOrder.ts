@@ -34,10 +34,9 @@
  */
 
 import Cart from "@webresto/core/models/Cart";
-import getEmitter from "@webresto/core/lib/getEmitter";
-import SystemInfo from "@webresto/core/models/SystemInfo";
-import OrderData from "@webresto/core/modelsHelp/OrderData";
 import responseWithErrorMessage from "@webresto/api/lib/responseWithErrorMessage";
+import getEmitter from "@webresto/core/lib/getEmitter";
+
 export default async function (req: ReqType, res: ResType) {
   let orderNumber = req.params.orderNumber; 
 
@@ -66,6 +65,7 @@ export default async function (req: ReqType, res: ResType) {
     let orderData = await Cart.returnFullCart(cart)
     //@ts-ignore    
     orderData.paymentMethod = paymentMethod;
+    getEmitter().emit('api-v1-get-order', orderData);
     if (!cart) {
       return res.json({
         message: {
