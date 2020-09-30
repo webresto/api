@@ -126,9 +126,6 @@ export default async function (req: ReqType, res: ResType) {
 
 
     cart.personsCount = (data.personsCount) ? data.personsCount : "";
-
-
-    console.log(data.comment);
     if (data.comment)
       cart.comment = data.comment;
   

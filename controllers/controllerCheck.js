@@ -112,7 +112,6 @@ async function default_1(req, res) {
             data.address.city = data.address.city || await SystemInfo.use('city');
         }
         cart.personsCount = (data.personsCount) ? data.personsCount : "";
-        console.log(data.comment);
         if (data.comment)
             cart.comment = data.comment;
         if (data.date)

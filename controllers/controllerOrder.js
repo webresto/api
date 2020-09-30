@@ -111,7 +111,6 @@ async function default_1(req, res) {
     }
     try {
         var cart = await Cart.findOne({ id: data.cartId });
-        console.log("11111", cart);
         if (!cart) {
             return res.badRequest({
                 message: {

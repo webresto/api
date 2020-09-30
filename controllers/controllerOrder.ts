@@ -117,7 +117,6 @@ export default async function (req: ReqType, res: ResType) {
 
   try {
     var cart = await Cart.findOne({id: data.cartId}); 
-    console.log("11111",cart)
     if (!cart) {
       return res.badRequest({
         message: {
