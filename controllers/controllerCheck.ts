@@ -141,25 +141,33 @@ export default async function (req: ReqType, res: ResType) {
       sails.log.error("API > CHECK > cart.check", e);
     }
 
+
+    let message;
+
     if (success) {
-      return res.json({
-        cart: await Cart.returnFullCart(cart),
-        message: {
-          type: 'info',
-          title: 'ok',
-          body: 'Стоимость доставки расчитана успешно.'
-        }
-      });
+      message = {
+        type: 'info',
+        title: 'ok',
+        body: 'Стоимость доставки расчитана успешно.'
+      }
     } else {
-      return res.json({
-        cart: await Cart.returnFullCart(cart),
-        message: {
-          type: 'warning',
-          title: await SystemInfo.use('zoneDontWork'),
-          body: 'Не удалось проверить корзину'
-        }
-      });
+      message = {
+        type: 'warning',
+        title: 'Внимание',
+        body: 'Не удалось проверить заказ, проверьте еще раз заполненные поля.'
+      }
     }
+
+    let result: any = {
+      cart: await Cart.returnFullCart(cart),
+      message: message
+    }
+
+    if ((await SystemInfo.use("HideCheckResultMessage")) && success){
+      delete(result.message)
+    } 
+
+    return res.json(result);
   } catch (e) {
     let message = {
       type: 'error',
